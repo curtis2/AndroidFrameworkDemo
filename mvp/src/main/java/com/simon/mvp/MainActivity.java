@@ -1,10 +1,10 @@
 package com.simon.mvp;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.simon.mvp.base.MvpBaseActivity;
 import com.simon.mvp.callback.IContributorView;
 import com.simon.mvp.custom.ProcessDialog;
 import com.simon.mvp.modul.Contributor;
@@ -25,22 +25,25 @@ import com.simon.rameworkdemo.mvp.R;
  *
  */
 
-public class MainActivity extends AppCompatActivity  implements IContributorView{
+public class MainActivity extends MvpBaseActivity<IContributorView,ContributorPresenter> implements IContributorView{
     private ProcessDialog dialog;
     private TextView topContributor;
     private Contributor contributor = new Contributor();
-    ContributorPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        presenter=new ContributorPresenter(this);
         topContributor = (TextView)findViewById(R.id.top_contributor);
     }
 
+    @Override
+    public ContributorPresenter createPresenter() {
+        return new ContributorPresenter();
+    }
+
     public void get(View view){
-        presenter.getContributorData();
+        getPresenter().getContributorData();
     }
 
     public void change(View view){
